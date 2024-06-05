@@ -1,13 +1,18 @@
-# systemd-vmotion-notification
+# vmnotification
 
 This project implements a simple systemd service that provides a method to automatically run predetermined commands before and after a vSphere vMotion event. 
 
 Running commands before and after a vMotion is beneficial because it allows a given application owner the ability to proactively set their application in a paused state that will ensure the
 
+## Authors
+* Charles Lee (cleeistaken)
+* Dharmesh Bhatt (darkmesh-b)
+
 
 ## Requirements
-* systemd based Linux OS
+* Linux OS using systemd
 * Python 3.10
+
 
 ## Installation
 ### Git Clone
