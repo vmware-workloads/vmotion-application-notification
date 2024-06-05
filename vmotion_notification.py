@@ -1,4 +1,5 @@
 #! /usr/bin/python3
+import argparse
 import configparser
 import json
 import logging
@@ -12,6 +13,8 @@ from time import sleep
 
 logger = logging.getLogger(__name__)
 
+
+DEFAULT_CONFIG_FILE = 'vmotion_notification.conf'
 
 def get_logging_level(level: str):
     level = level.upper()
@@ -471,11 +474,16 @@ class VMotionNotification(object):
 
 
 def main():
+    # Get CLI input
+    parser = argparse.ArgumentParser(prog='vmotion_notification_svc')
+    parser.add_argument('-c', '--config', type=str, default=DEFAULT_CONFIG_FILE)
+    args = parser.parse_args()
+    config_file = args.config
 
     # Check if configuration file exists
-    config_file = "/etc/vmotion_notification.conf"
     if not (Path(config_file).is_file() and Path(config_file).exists()):
-        print(f"Configuration file is missing: '{ config_file }'")
+        print(f"Configuration file is missing: '{config_file}'")
+        parser.print_help()
         exit(1)
 
     # Parse configuration file
