@@ -4,7 +4,7 @@ from logging import handlers
 from pathlib import Path
 from typing import Union
 
-from vmotion_notification import logger
+logger = logging.getLogger(__name__)
 
 
 def get_logging_level(level: str) -> int:
@@ -37,27 +37,3 @@ def create_folders(folder_path: Union[str, Path]) -> Path:
     except PermissionError:
         print(f"Insufficient permissions to create folder '{ folder_path }'")
         exit(1)
-
-
-def create_logger(logfile: str, log_level: int, console_level: int, logfile_maxsize_bytes: int, logfile_count: int):
-
-    # Set logging level
-    logger.setLevel(log_level)
-
-    # Set log format
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
-    # Create console handler
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(console_level)
-
-    # Create file handler
-    file_handler = logging.handlers.RotatingFileHandler(logfile,
-                                                        maxBytes=logfile_maxsize_bytes,
-                                                        backupCount=logfile_count)
-    console_handler.setFormatter(formatter)
-    file_handler.setFormatter(formatter)
-
-    # Add handlers
-    logger.addHandler(file_handler)
-    logger.addHandler(console_handler)

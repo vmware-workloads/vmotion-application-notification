@@ -6,10 +6,10 @@ app_name = my_app
 check_interval_seconds = 1
 
 # Command executed to prepare the application for a vMotion.
-pre_vmotion_cmd = ping -c 20 8.8.8.8
+pre_vmotion_cmd = systemctl stop cockroachdb.service
 
 # Command executed to resume the application after a vMotion.
-post_vmotion_cmd = ping -c 10 8.8.8.8
+post_vmotion_cmd = systemctl start cockroachdb.service
 
 # File where the notification token is stored
 token_file = /var/run/vmotion_notifier/token_file
@@ -17,6 +17,6 @@ token_file = /var/run/vmotion_notifier/token_file
 [Logging]
 log_level = DEBUG
 console_level = WARNING
-logfile = /var/log/vmotion_notifier/vmotion_notifier.log
+logfile = /var/log/vmnotification/vmnotification.log
 logfile_maxsize_bytes = 10485760
 logfile_count = 10

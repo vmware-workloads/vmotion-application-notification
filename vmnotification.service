@@ -1,0 +1,12 @@
+[Unit]
+Description=VMotion Notifier Service
+Documentation=
+After=vmtoolsd.service
+
+[Service]
+EnvironmentFile=/etc/default/vmnotification
+ExecStart=/opt/vmnotification/vmnotification.py $EXTRA_OPTS
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,3 @@
+# Default settings for vmotion notifier.
+
+EXTRA_OPTS=--config /etc/vmnotification/vmnotification.conf
