@@ -46,5 +46,6 @@ echo "Copying systemd service to '/etc/systemd/system'"
 cp ./vmnotification.service /etc/systemd/system/
 
 echo "Enabling and starting 'vmnotification.service'"
+systemctl daemon-reload
 systemctl enable vmnotification.service
 systemctl restart vmnotification.service
