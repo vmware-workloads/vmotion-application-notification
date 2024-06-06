@@ -1,6 +1,6 @@
 [Unit]
 Description=VMotion Notifier Service
-Documentation=
+Documentation=https://github.com/vmware-workloads/vmotion-application-notification/
 After=vmtoolsd.service
 
 [Service]
