@@ -1,5 +1,10 @@
 #! /bin/bash
 
+if [[ "$EUID" -ne 0 ]]; then
+    echo "Please re-run using sudo or as root"
+    exit 1
+fi
+
 echo "Creating folders"
 vmnotification_folders=( \
   "/opt/vmnotification"  \
