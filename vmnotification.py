@@ -15,7 +15,7 @@ def create_logger(logfile: str,
                   logfile_maxsize_bytes: int,
                   logfile_count: int) -> logging.Logger:
 
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger('')
 
     # Set logging level
     logger.setLevel(log_level)
