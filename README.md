@@ -1,4 +1,4 @@
-# vmotion-application-notification
+# vmotion-application-notification 
 
 Since its introduction in 2003, vMotion has been one of the most transformative inventions in the Virtualization and Cloud technologies space. It is inarguably one of the most important features of the VMware vSphere platform. At a high level, vMotion (also sometimes referred to as "Live Migration") enables the movement or relocation a virtualized workload from one Host to another while the application hosted by the Virtual Machine continues to run and provide services.
 
