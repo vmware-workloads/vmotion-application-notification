@@ -43,8 +43,10 @@ jobs:
       run: |
         ls ${{ github.workspace }}
     
-    - name: Creating tarball & compressing
+    - name: Creating tarball
       run: tar --exclude ".git/*" --exclude ".github/*" --exclude ".gitignore" -cvf vmnotification.tar *
+
+    - name: Gzip tarball
       run: gzip vmnotification.tar
    
     - name: Create Release
