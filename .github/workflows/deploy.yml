@@ -35,9 +35,6 @@ jobs:
       run: |
         ls ${{ github.workspace }}
     - run: echo "🍏 This job's status is ${{ job.status }}."
-    
-    - name: Download libraries
-      run: pip install -r requirements.txt --target=./
 
     - name: List files in the repository
       run: |
