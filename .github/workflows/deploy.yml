@@ -41,7 +41,7 @@ jobs:
         ls ${{ github.workspace }}
     
     - name: Creating tarball
-      run: tar --exclude ".git/*" --exclude ".github/*" --exclude ".gitignore" -cvf vmnotification.tar *
+      run: tar -p --exclude ".git/*" --exclude ".github/*" --exclude ".gitignore" -cvf vmnotification.tar *
 
     - name: Gzip tarball
       run: gzip vmnotification.tar
