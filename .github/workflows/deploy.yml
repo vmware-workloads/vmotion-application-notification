@@ -44,7 +44,7 @@ jobs:
       run: mkdir -p vmnotify-${{ github.ref_name }} && find . -type f | xargs -I {} cp {} vmnotify-${{ github.ref_name }}
     
     - name: Creating tarball
-      run: tar -p --exclude ".git/*" --exclude ".github/*" --exclude ".gitignore" -cvfz vmnotification.tar.gz vmnotify-${{ github.ref_name }}
+      run: tar -p --exclude ".git/*" --exclude ".github/*" --exclude ".gitignore" -cvzf vmnotification.tar.gz vmnotify-${{ github.ref_name }}
 
    
     - name: Create Release
