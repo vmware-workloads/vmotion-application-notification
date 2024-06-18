@@ -39,12 +39,13 @@ jobs:
     - name: List files in the repository
       run: |
         ls ${{ github.workspace }}
+
+    - name: Creating directory
+      run: mkdir -p ${{ github.ref }} && cp * ${{ github.ref }}
     
     - name: Creating tarball
-      run: tar -p --exclude ".git/*" --exclude ".github/*" --exclude ".gitignore" -cvf vmnotification.tar *
+      run: tar -p --exclude ".git/*" --exclude ".github/*" --exclude ".gitignore" -cvfz vmnotification.tar.gz ${{ github.ref }}
 
-    - name: Gzip tarball
-      run: gzip vmnotification.tar
    
     - name: Create Release
       id: create_release
