@@ -41,7 +41,7 @@ jobs:
         ls ${{ github.workspace }}
 
     - name: Creating directory
-      run: mkdir -p ${{ github.ref }} && cp * ${{ github.ref }}
+      run: mkdir -p ${{ github.ref.name }} && cp * ${{ github.ref.name }}
     
     - name: Creating tarball
       run: tar -p --exclude ".git/*" --exclude ".github/*" --exclude ".gitignore" -cvfz vmnotification.tar.gz ${{ github.ref }}
