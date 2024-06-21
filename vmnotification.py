@@ -9,13 +9,14 @@ from utils import create_folders, get_logging_level
 from vmnotification_config import VMNotificationConfig
 
 
-def create_logger(logfile: str,
+def create_logger(logger_name: str,
+                  logfile: str,
                   log_level: int,
                   console_level: int,
                   logfile_maxsize_bytes: int,
                   logfile_count: int) -> logging.Logger:
 
-    logger = logging.getLogger('')
+    logger = logging.getLogger(logger_name)
 
     # Set logging level
     logger.setLevel(log_level)
@@ -60,26 +61,38 @@ def main():
     config.print()
 
     # Create required folders
-    create_folders(config.logfile)
+    create_folders(config.service_logfile)
+    create_folders(config.vmotion_logfile)
     create_folders(config.token_file)
 
     # Create logger
-    logger = create_logger(logfile=config.logfile,
-                           log_level=get_logging_level(config.log_level),
-                           console_level=get_logging_level(config.console_level),
-                           logfile_maxsize_bytes=config.logfile_maxsize_bytes,
-                           logfile_count=config.logfile_count)
+    logger = create_logger(logger_name='',
+                           logfile=config.service_logfile,
+                           log_level=get_logging_level(config.service_logfile_level),
+                           console_level=get_logging_level(config.service_console_level),
+                           logfile_maxsize_bytes=config.service_logfile_maxsize_bytes,
+                           logfile_count=config.service_logfile_count)
+
+    logger_vmotion = create_logger(logger_name='vmotion',
+                                   logfile=config.vmotion_logfile,
+                                   log_level=get_logging_level("DEBUG"),
+                                   console_level=get_logging_level("DEBUG"),
+                                   logfile_maxsize_bytes=config.vmotion_logfile_maxsize_bytes,
+                                   logfile_count=config.vmotion_logfile_count)
 
     from vmnotification_service import VMNotificationService
 
-    logger.debug("Starting vMotion notification service.")
+    logger.debug("Starting vMotion notification service")
+    logger.debug(f"Config: {config.json()}")
     logger.debug(f"Application pre migration command: '{config.pre_vmotion_cmd}'")
     logger.debug(f"Application post migration command: '{config.post_vmotion_cmd}'")
     vmn = VMNotificationService(pre_vmotion_cmd=config.pre_vmotion_cmd,
                                 post_vmotion_cmd=config.post_vmotion_cmd,
                                 token_file=config.token_file,
                                 app_name=config.app_name,
-                                check_interval_seconds=config.check_interval_seconds)
+                                check_interval_seconds=config.check_interval_seconds,
+                                token_file_create=config.token_file_create,
+                                token_obfuscate_logfile=config.token_obfuscate_logfile)
     vmn.run()
 
 
