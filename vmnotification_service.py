@@ -51,6 +51,7 @@ class VMNotificationService(object):
         self.token_obfuscate_logfile = token_obfuscate_logfile
         self.__token = None
         self.__run = True
+        self.__ran_pre_cmd = False
         logger.debug(f"__init__: pre_vmotion_cmd_split: {self.pre_vmotion_cmd_split}")
         logger.debug(f"__init__: post_vmotion_cmd_split: {self.post_vmotion_cmd_split}")
 
@@ -235,6 +236,7 @@ class VMNotificationService(object):
                     # Invoke PRE vMotion operation
                     logger_vmotion.debug(f"pre-vmotion command starting: '{self.pre_vmotion_cmd}'")
                     self.run_pre_vmotion()
+                    self.__ran_pre_cmd = True
                     logger_vmotion.debug(f"pre-vmotion command complete.")
                 
                     # Ack start event
@@ -258,9 +260,13 @@ class VMNotificationService(object):
                 print(f"vMotion end with operation ID '{reply.get('operationId')}'")
 
                 # Invoke POST vMotion operation
-                logger_vmotion.debug(f"post-vmotion command starting: '{self.pre_vmotion_cmd}'.")
-                self.run_post_vmotion()
-                logger_vmotion.debug(f"post-vmotion command complete.")
+                if self.__ran_pre_cmd:
+                    logger_vmotion.debug(f"post-vmotion command starting: '{self.pre_vmotion_cmd}'.")
+                    self.run_post_vmotion()
+                    self.__ran_pre_cmd = False
+                    logger_vmotion.debug(f"post-vmotion command complete.")
+                else:
+                    self._warning(f"pre command not run, not running post command")
 
             # poll interval
             sleep(self.check_interval_seconds)
