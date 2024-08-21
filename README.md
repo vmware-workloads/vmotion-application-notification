@@ -35,7 +35,11 @@ Note: These Scripts are provided without any implied warranty and are intended o
 
 ## Installation
 ### Git Clone
-1. Download and install the files.
+1. Configure the hosts and VM using this article. The scripts are included in the **tools** folder.
+https://core.vmware.com/blog/how-enable-and-configure-new-vmotion-application-notification-feature-vm
+
+
+2. Download and install the files.
 ```
 git clone https://github.com/vmware-workloads/vmotion-application-notification.git
 cd ./vmotion-application-notification
@@ -44,7 +48,7 @@ sudo ./install.sh
 ```
 <br>
 
-2. Configure the service by editing the vmnotification.conf file.
+3. Configure the service by editing the vmnotification.conf file.
 ```ini
 # /etc/vmnotification/vmnotification.conf
 
@@ -84,7 +88,7 @@ logfile_count = 10                                     # Do no change unless you
 ```
 <br>
 
-3. Restart the service.
+4. Restart the service.
 ```
 sudo systemctl restart vmnotification.service
 ```
