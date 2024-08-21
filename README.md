@@ -38,6 +38,7 @@ Note: These Scripts are provided without any implied warranty and are intended o
 1. Download and install the files.
 ```
 git clone https://github.com/vmware-workloads/vmotion-application-notification.git
+cd ./vmotion-application-notification
 chmod a+x install.sh vmnotification.py
 sudo ./install.sh
 ```
