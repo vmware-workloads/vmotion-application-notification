@@ -41,10 +41,10 @@ jobs:
         ls ${{ github.workspace }}
 
     - name: Creating directory
-      run: mkdir -p vmnotify-${{ github.ref_name }} && find * -maxdepth 1 -type f | xargs -I {} cp {} vmnotify-${{ github.ref_name }}
+      run: mkdir -p vmnotification-${{ github.ref_name }} && find * -maxdepth 1 -type f | xargs -I {} cp {} vmnotification-${{ github.ref_name }}
     
     - name: Creating tarball
-      run: tar -p --exclude ".git/*" --exclude ".github/*" --exclude ".gitignore" -cvzf vmnotification.tar.gz vmnotify-${{ github.ref_name }}
+      run: tar -p --exclude ".git/*" --exclude ".github/*" --exclude ".gitignore" -cvzf vmnotification.tar.gz vmnotification-${{ github.ref_name }}
 
    
     - name: Create Release
