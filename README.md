@@ -34,6 +34,14 @@ Note: These Scripts are provided without any implied warranty and are intended o
 
 
 ## Installation
+
+### Curl
+1. Run the following command on the target system command line.
+```bash
+# Download and run the installation script to install the latest release.
+curl -L https://raw.githubusercontent.com/vmware-workloads/vmotion-application-notification/main/remote.sh | bash
+```
+
 ### Git Clone
 1. Configure the hosts and VM using this article. The scripts are included in the **tools** folder.
 https://core.vmware.com/blog/how-enable-and-configure-new-vmotion-application-notification-feature-vm
@@ -56,35 +64,55 @@ sudo ./install.sh
 # Name of the application registered for notifications
 app_name = my_app                                      # <<< ---- SET THIS TO YOUR APPLICATION NAME
 
-# Interval in seconds that we check for a notification from the host. 
-check_interval_seconds = 1                             # Do no change unless you know what you are doing.
+# Interval in seconds that we check for a notification from the host.
+# The default is every 1 second.
+check_interval_seconds = 1                             # <<< ---- DEFAULT SHOULD BE FINE
 
 # Command executed to prepare the application for a vMotion.
-pre_vmotion_cmd = echo "I am about to be migrated!"    # <<< ---- SET THIS TO THE PRE VMOTION COMMAND
+pre_vmotion_cmd = ping -c 20 8.8.8.8                   # <<< ---- SET THIS TO THE PRE VMOTION COMMAND
 
 # Command executed to resume the application after a vMotion.
-post_vmotion_cmd = echo "Migration is complete!"       # <<< ---- SET THIS TO THE POST VMOTION COMMAND
+post_vmotion_cmd = ping -c 10 8.8.8.8                  # <<< ---- SET THIS TO THE POST VMOTION COMMAND
 
-# File where the notification token is stored
-token_file = /var/run/vmotion_notifier/token_file      # Do no change unless you know what you are doing.
+#
+# THE STUFF BELOW SHOULD NOT BE CHANGED UNLESS YOU ARE SOLVING A SPECIFIC ISSUE  
+#
+[Token]
+# Create a token file on a successful registration.
+# - If disabled (no), if the service crashes and the token is still registered, the VM will need to number
+#   rebooted to clear the existing registration.token_file
+# - If enabled (yes), the token is saved to a file upon successful registration. When the program starts we
+#   check to see if a token file exists, and try to unregister it. This eliminates the need to reboot if the
+#   application terminates uncleanly.
+token_file_create = no
 
+# Obfuscate the token in the logfile.
+# - If disabled (no), the token is written in the log files.
+# - If enabled (yes), we obfuscate the token in the log files.
+token_obfuscate_logfile = yes
 
 [Logging]
-# Log file
-logfile = /var/log/vmnotification/vmnotification.log   # Do no change unless you know what you are doing.
+# Log files
+service_logfile_ = /var/log/vmnotification/vmnotification.log
+vmotion_logfile = /var/log/vmnotification/vmotion.log
+timeout_logfile = /var/log/vmnotification/timeout.log
 
-# Logging verbosity in the log file
-log_level = DEBUG                                      # Do no change unless you know what you are doing.
+# Logging verbosity in the service log file
+service_logfile_level  = DEBUG
 
-# Logging verbosity in the console
-console_level = WARNING                                # Do no change unless you know what you are doing.
+# Logging verbosity in the service console
+service_console_level  = WARNING
 
 # Maximum size of the log file in Bytes
-logfile_maxsize_bytes = 10485760                       # Do no change unless you know what you are doing.
+service_logfile_maxsize_bytes = 10485760
+vmotion_logfile_maxsize_bytes = 10485760
+timeout_logfile_maxsize_bytes = 10485760
 
 # Number of log files to keep (.log, .log.1, .log.2, ...). Once this number of log files is reached, the oldest
 # file is deleted.
-logfile_count = 10                                     # Do no change unless you know what you are doing.
+service_logfile_count = 10
+vmotion_logfile_count = 3
+timeout_logfile_count = 3
 ```
 <br>
 
