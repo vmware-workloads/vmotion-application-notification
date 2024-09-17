@@ -49,3 +49,8 @@ echo "Enabling and starting 'vmnotification.service'"
 systemctl daemon-reload
 systemctl enable vmnotification.service
 systemctl restart vmnotification.service
+
+echo ""
+echo "MAKE SURE TO EDIT THE CONFIGURATION AND RESTART THE SERVICE!"
+echo "'sudo vi /etc/vmnotification/vmnotification.conf; sudo systemctl restart vmnotification'"
+echo ""
