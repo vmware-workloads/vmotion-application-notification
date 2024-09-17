@@ -31,6 +31,7 @@ token_obfuscate_logfile = no
 # Log files
 service_logfile_ = /var/log/vmnotification/vmnotification.log
 vmotion_logfile = /var/log/vmnotification/vmotion.log
+timeout_logfile = /var/log/vmnotification/timeout.log
 
 # Logging verbosity in the service log file
 service_logfile_level  = DEBUG
@@ -41,8 +42,10 @@ service_console_level  = WARNING
 # Maximum size of the log file in Bytes
 service_logfile_maxsize_bytes = 10485760
 vmotion_logfile_maxsize_bytes = 10485760
+timeout_logfile_maxsize_bytes = 10485760
 
 # Number of log files to keep (.log, .log.1, .log.2, ...). Once this number of log files is reached, the oldest
 # file is deleted.
 service_logfile_count = 10
 vmotion_logfile_count = 3
+timeout_logfile_count = 3

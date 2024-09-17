@@ -12,6 +12,7 @@ from vmnotification_exception import VMNotificationException
 
 logger = logging.getLogger(__name__)
 logger_vmotion = logging.getLogger('vmotion')
+logger_timeout = logging.getLogger('timeout')
 
 
 class VMNotificationService(object):
@@ -249,8 +250,12 @@ class VMNotificationService(object):
             elif event_type == "timeout-change":
                 op_id = reply.get("operationId")
                 notification_timeout = reply.get("newNotificationTimeoutInSec")
-                self._debug(f"check_for_events: Notification timeout change event received.")
-                self._debug(f"check_for_events: new notification timeout: '{notification_timeout}' seconds.")
+                self._warning(f"check_for_events: Notification timeout change event received.")
+                self._warning(f"check_for_events: new notification timeout: '{notification_timeout}' seconds.")
+
+                # Update timeout logfile
+                logger_timeout.warning(f"check_for_events: Notification timeout change event received.'")
+                logger_timeout.warning(f"check_for_events: new notification timeout: '{notification_timeout}' seconds.")
 
                 self.ack_event(op_id)
 

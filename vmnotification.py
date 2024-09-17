@@ -63,6 +63,7 @@ def main():
     # Create required folders
     create_folders(config.service_logfile)
     create_folders(config.vmotion_logfile)
+    create_folders(config.timeout_logfile)
     create_folders(config.token_file)
 
     # Create logger
@@ -79,6 +80,13 @@ def main():
                                    console_level=get_logging_level("DEBUG"),
                                    logfile_maxsize_bytes=config.vmotion_logfile_maxsize_bytes,
                                    logfile_count=config.vmotion_logfile_count)
+
+    logger_timeout = create_logger(logger_name='timeout',
+                                   logfile=config.timeout_logfile,
+                                   log_level=get_logging_level("DEBUG"),
+                                   console_level=get_logging_level("DEBUG"),
+                                   logfile_maxsize_bytes=config.timeout_logfile_maxsize_bytes,
+                                   logfile_count=config.timeout_logfile_count)
 
     from vmnotification_service import VMNotificationService
 

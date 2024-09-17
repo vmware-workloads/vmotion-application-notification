@@ -13,6 +13,9 @@ DEFAULT_SERVICE_LOGFILE_COUNT = 10
 DEFAULT_VMOTION_LOGFILE = "/var/log/vmnotification/vmotion.log"
 DEFAULT_VMOTION_LOGFILE_MAXSIZE_BYTES = 20 * 1024 * 1024
 DEFAULT_VMOTION_LOGFILE_COUNT = 3
+DEFAULT_TIMEOUT_LOGFILE = "/var/log/vmnotification/timeout.log"
+DEFAULT_TIMEOUT_LOGFILE_MAXSIZE_BYTES = 20 * 1024 * 1024
+DEFAULT_TIMEOUT_LOGFILE_COUNT = 3
 
 
 class VMNotificationConfig(object):
@@ -88,6 +91,18 @@ class VMNotificationConfig(object):
         self.vmotion_logfile_count = self.config.getint(section="Logging",
                                                         option="vmotion_logfile_count",
                                                         fallback=DEFAULT_VMOTION_LOGFILE_COUNT)
+
+        self.timeout_logfile = self.config.get(section="Logging",
+                                               option="timeout_logfile",
+                                               fallback=DEFAULT_TIMEOUT_LOGFILE)
+
+        self.timeout_logfile_maxsize_bytes = self.config.getint(section="Logging",
+                                                                option="timeout_logfile_maxsize_bytes",
+                                                                fallback=DEFAULT_TIMEOUT_LOGFILE_MAXSIZE_BYTES)
+
+        self.timeout_logfile_count = self.config.getint(section="Logging",
+                                                        option="timeout_logfile_count",
+                                                        fallback=DEFAULT_TIMEOUT_LOGFILE_COUNT)
 
     def json(self):
         return {
