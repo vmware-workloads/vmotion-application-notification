@@ -3,32 +3,21 @@
 echo "##########################################"
 echo "# VMNOTIFICATION INSTALL                 #"
 echo "##########################################"
-echo ""
-FILENAME="vmnotification.tar.gz"
+echo
+
+FILENAME=vmnotification-v*
 URL="https://api.github.com/repos/vmware-workloads/vmotion-application-notification/releases/latest"
 
-# Download File
-echo "Downloading the latest release from $URL"
-curl -s "$URL" | awk -F\" '/browser_download_url.*.tar.gz/{system("curl -OL " $(NF-1))}'
-echo ""
+browser_url=$(curl -s "$URL" | grep browser_download_url)
+[[ $(echo $?) -eq 0 ]] && echo \>\>Obtained URL || echo "error obtaining URL"
 
-# Extract
-echo "Extracting $FILENAME"
-tar -xzvf "$FILENAME"
-echo ""
+directory=$(echo $browser_url | awk '{print $NF}' | xargs curl -sL | tar zxv 2> >(grep -o $FILENAME) | sort -u)
 
-# Get folder
-echo "Setting folder path"
-FOLDER=$(ls | grep "vmnotification-" | sort -V | tail -n 1)
-echo "Folder is: '$FOLDER'"
-echo ""
-
-# Changing into folder
-pushd "$FOLDER"
+pushd "$directory"
 echo "Calling install.sh"
 sudo bash "./install.sh"
 popd
-echo ""
+echo
 
 echo "##########################################"
 echo "# VMNOTIFICATION INSTALL COMPLETE        #"
