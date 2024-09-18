@@ -5,7 +5,7 @@ echo "# VMNOTIFICATION INSTALL                 #"
 echo "##########################################"
 echo
 
-FILENAME=vmnotification-v*
+FILENAME="vmnotification-v*"
 URL="https://api.github.com/repos/vmware-workloads/vmotion-application-notification/releases/latest"
 
 browser_url=$(curl -s "$URL" | grep browser_download_url)
