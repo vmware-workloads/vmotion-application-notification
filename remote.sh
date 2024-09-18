@@ -13,7 +13,7 @@ browser_url=$(curl -s "$URL" | grep browser_download_url)
 
 tar_out=$(echo $browser_url | awk '{print $NF}' | xargs curl -sL | tar zxv)
 
-dpath=$(echo $tar_out | grep -o vmnotif* | sort -u)
+dpath=$(echo $tar_out | grep -o $FILENAME* | sort -u)
 
 pushd "$dpath"
 echo "Calling install.sh"
