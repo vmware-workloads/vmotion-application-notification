@@ -11,7 +11,9 @@ URL="https://api.github.com/repos/vmware-workloads/vmotion-application-notificat
 browser_url=$(curl -s "$URL" | grep browser_download_url)
 [[ $(echo $?) -eq 0 ]] && echo \>\>Obtained URL || echo "error obtaining URL"
 
-directory=$(echo $browser_url | awk '{print $NF}' | xargs curl -sL | tar zxv 2> >(grep -o vmnotif*) | sort -u)
+#directory=$(echo $browser_url | awk '{print $NF}' | xargs curl -sL | tar zxv 2> >(grep -o vmnotif*) | sort -u)
+echo $browser_url | awk '{print $NF}' | xargs curl -sL | tar zxv
+
 
 pushd "$directory"
 echo "Calling install.sh"
