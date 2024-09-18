@@ -30,16 +30,16 @@ Note: These Scripts are provided without any implied warranty and are intended o
 
 ## Requirements
 * Linux OS using systemd
-* Python 3.10
-* ESX host and VM timout must be configured (see [How to Enable and Configure the new vMotion Application Notification Feature for a VM](https://blogs.vmware.com/apps/2024/01/how-to-enable-and-configure-a-vm-for-the-new-vmotion-application-notification-feature.html))
-  * setHostTimeout.py
-  * enableAppNotificationOnVmFromHost.py
+* Python 3.10 (should work with 3.7+)
 
 
 ## Installation
 
 ### Curl
-1. Run the following command on the target system command line.
+1. Configure the hosts and VM using this article. The scripts are included in the **tools** folder.
+https://core.vmware.com/blog/how-enable-and-configure-new-vmotion-application-notification-feature-vm
+
+2. Run the following command on the target system command line.
 ```bash
 # Download and run the installation script to install the latest release.
 curl -L https://raw.githubusercontent.com/vmware-workloads/vmotion-application-notification/main/remote.sh | bash
