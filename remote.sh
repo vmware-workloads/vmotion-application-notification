@@ -3,22 +3,46 @@
 echo "##########################################"
 echo "# VMNOTIFICATION INSTALL                 #"
 echo "##########################################"
-echo
+echo ""
 
-FILENAME='vmnotification-v'
+FILENAME=vmnotification
 URL="https://api.github.com/repos/vmware-workloads/vmotion-application-notification/releases/latest"
 
+
+# Get Latest Release
+printf "Getting latest release info from $URL..."
 browser_url=$(curl -s "$URL" | grep browser_download_url)
-[[ $(echo $?) -eq 0 ]] && echo \>\>Obtained URL || echo "error obtaining URL"
 
-tar_out=$(echo $browser_url | awk '{print $NF}' | xargs curl -sL | tar zxv)
+if [[ $(echo $?) -eq 0 ]]
+	then echo "Done"
+else 
+    	echo "ERROR"
+    	echo
+    	echo "Ensure curl is installed and you have a stable connection to $URL"
+    	echo "Aborting"
+    	exit	
+fi    	
 
-dpath=$(echo $tar_out | grep -o $FILENAME* | sort -u)
+# Download and extract
+printf "Download & extract $FILENAME..."
+directory=$(awk '{print $NF}' <<< $browser_url | xargs curl -sL | tar zxv 2> >(grep -o $FILENAME*)| sort -u)
+echo "OK"
 
-pushd "$dpath"
-echo "Calling install.sh"
+# Run the installer
+pushd "$directory" > /dev/null 
+printf "\nCalling install.sh... You may need to authenticate\n"
 sudo bash "./install.sh"
-popd
+
+if [[ $(echo $?) -eq 0 ]]
+	then echo "Done"
+else
+	echo "Error Installing $FILENAME ... Aborting"
+	exit
+fi	
+
+
+fi 	
+popd > /dev/null 
 echo
 
 echo "##########################################"
