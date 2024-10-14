@@ -25,7 +25,7 @@ fi
 
 # Download and extract
 printf "Download & extract $FILENAME..."
-directory=$(curl -sL $browser_url | tar zxv |grep -o $FILENAME*| sort -u)
+directory=$(curl -sL $browser_url | tar zxv 2>/dev/null | grep -o $FILENAME* | sort -u)
 echo "OK"
 
 # Run the installer
