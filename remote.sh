@@ -31,7 +31,7 @@ echo "OK"
 
 # Run the installer
 pushd "$directory" > /dev/null
-printf "\nCalling install.sh... You may need to authenticate\n"
+printf "\nCalling install.sh... You may need to authenticate\n\n"
 sudo bash "./install.sh"
 
 if [[ $(echo $?) -eq 0 ]]
