@@ -11,14 +11,14 @@ URL="https://api.github.com/repos/vmware-workloads/vmotion-application-notificat
 
 # Get Latest Release
 printf "Getting latest release info from $URL..."
-browser_url=$(curl -s "$URL" | awk '/browser_download_url/{print $2}' | cut -d '"' -f2)
+browser_url=$(curl -s "$URL" | awk -F'"' '/"browser_download_url"/ {print $(NF-1)}')
 
 if [[ $(echo $?) -eq 0 ]]
         then echo "Done"
 else
         echo "ERROR"
         echo
-        echo "Ensure curl, awk and cut are installed and you have a stable connection to $URL"
+        echo "Ensure curl and awk are installed and you have a stable connection to $URL"
         echo "Aborting"
         exit
 fi
