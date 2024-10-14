@@ -42,7 +42,7 @@ https://core.vmware.com/blog/how-enable-and-configure-new-vmotion-application-no
 2. Run the following command on the target system command line.
 ```bash
 # Download and run the installation script to install the latest release.
-curl -L https://raw.githubusercontent.com/vmware-workloads/vmotion-application-notification/main/remote.sh | bash
+curl -sL https://raw.githubusercontent.com/vmware-workloads/vmotion-application-notification/main/remote.sh | bash
 ```
 
 ### Git Clone
