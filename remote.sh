@@ -11,38 +11,38 @@ URL="https://api.github.com/repos/vmware-workloads/vmotion-application-notificat
 
 # Get Latest Release
 printf "Getting latest release info from $URL..."
-browser_url=$(curl -s "$URL" | grep browser_download_url)
+browser_url=$(curl -s "$URL" | awk '/browser_download_url/{print $2}' | cut -d '"' -f2)
 
 if [[ $(echo $?) -eq 0 ]]
-	then echo "Done"
-else 
-    	echo "ERROR"
-    	echo
-    	echo "Ensure curl is installed and you have a stable connection to $URL"
-    	echo "Aborting"
-    	exit	
-fi    	
+        then echo "Done"
+else
+        echo "ERROR"
+        echo
+        echo "Ensure curl, awk and cut are installed and you have a stable connection to $URL"
+        echo "Aborting"
+        exit
+fi
 
 # Download and extract
 printf "Download & extract $FILENAME..."
-directory=$(awk '{print $NF}' <<< $browser_url | xargs curl -sL | tar zxv 2> >(grep -o $FILENAME*)| sort -u)
+directory=$(curl -sL $browser_url | tar zxv |grep -o $FILENAME*| sort -u)
+echo $directory
 echo "OK"
 
 # Run the installer
-pushd "$directory" > /dev/null 
+pushd "$directory" > /dev/null
 printf "\nCalling install.sh... You may need to authenticate\n"
 sudo bash "./install.sh"
 
 if [[ $(echo $?) -eq 0 ]]
-	then echo "Done"
+        then echo "Done"
 else
-	echo "Error Installing $FILENAME ... Aborting"
-	exit
-fi	
+        echo "Error Installing $FILENAME ... Aborting"
+        exit
+fi
 
 
-fi 	
-popd > /dev/null 
+popd > /dev/null
 echo
 
 echo "##########################################"
