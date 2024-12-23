@@ -266,7 +266,7 @@ class VMNotificationService(object):
 
                 # Invoke POST vMotion operation
                 if self.__ran_pre_cmd:
-                    logger_vmotion.debug(f"post-vmotion command starting: '{self.pre_vmotion_cmd}'.")
+                    logger_vmotion.debug(f"post-vmotion command starting: '{self.post_vmotion_cmd}'.")
                     self.run_post_vmotion()
                     self.__ran_pre_cmd = False
                     logger_vmotion.debug(f"post-vmotion command complete.")
