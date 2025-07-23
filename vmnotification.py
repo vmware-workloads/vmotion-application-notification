@@ -50,7 +50,7 @@ def main():
     args = parser.parse_args()
     config_file = args.config
 
-    # Check if configuration file exists
+    # Check if a configuration file exists
     if not (Path(config_file).is_file() and Path(config_file).exists()):
         print(f"Configuration file is missing: '{config_file}'")
         parser.print_help()
