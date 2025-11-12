@@ -117,10 +117,7 @@ class VMNotificationService(object):
             self._debug(f"delete_token: No token file to delete at {self.token_file}")
 
     def run_rpc(self, rpc_name: str, params: dict):
-        try:
-            from shlex import quote
-        except ImportError:
-            from pipes import quote
+        from shlex import quote
 
         # handle none param dict
         param = ""
@@ -174,7 +171,7 @@ class VMNotificationService(object):
 
         if not unique_token:
             error_msg = "No token was returned."
-            self.critical(f"register_for_notification: {error_msg}")
+            self._critical(f"register_for_notification: {error_msg}")
             raise VMNotificationException(error_msg)
 
         self._debug(f"register_for_notification: Registration successful.")
@@ -307,9 +304,6 @@ class VMNotificationService(object):
 
         except Exception as e:
             self._critical(f"run: Unexpected exception: {e}")
-
-        except:
-            self._critical(f"run: Catch all exception!")
 
         finally:
             self._debug(f"run: Cleaning up")

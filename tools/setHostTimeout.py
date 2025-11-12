@@ -1,4 +1,4 @@
-#! /bin/env python
+#!/usr/bin/env python3
 from pyVim.connect import SmartConnect
 from pyVmomi import vim, VmomiSupport
 import sys
@@ -15,4 +15,4 @@ optMgr = host.configManager.advancedOption
 optMgr.UpdateValues([vim.OptionValue(key="VmOpNotificationToApp.Timeout",
                                      value=VmomiSupport.vmodlTypes['long'](hostTimeout))])
 curHostTimeout = optMgr.QueryView("VmOpNotificationToApp.Timeout")[0].value
-print("\n Host-level notification timeout: %s \n" % curHostTimeout)
+print(f"\n Host-level notification timeout: {curHostTimeout} \n")

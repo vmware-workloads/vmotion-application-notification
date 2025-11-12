@@ -122,11 +122,14 @@ class VMNotificationConfig(object):
             "vmotion_logfile": self.vmotion_logfile,
             "vmotion_logfile_maxsize_bytes": self.vmotion_logfile_maxsize_bytes,
             "vmotion_logfile_count": self.vmotion_logfile_count,
+            "timeout_logfile": self.timeout_logfile,
+            "timeout_logfile_maxsize_bytes": self.timeout_logfile_maxsize_bytes,
+            "timeout_logfile_count": self.timeout_logfile_count,
         }
 
     def print(self):
         for k, v in self.json().items():
-            print(f"{ k }: '{ v }'")
+            print(f"{k}: '{v}'")
 
     @property
     def app_name(self) -> str:
@@ -134,8 +137,8 @@ class VMNotificationConfig(object):
 
     @app_name.setter
     def app_name(self, app_name: str):
-        if not isinstance(app_name, str) and len(app_name) < 1:
-            raise ValueError(f"app_file must be a string with at least 1 character (input: '{app_name}')")
+        if not isinstance(app_name, str) or len(app_name) < 1:
+            raise ValueError(f"app_name must be a string with at least 1 character (input: '{app_name}')")
         self._app_name = app_name
 
     @property
@@ -176,7 +179,7 @@ class VMNotificationConfig(object):
 
     @token_file.setter
     def token_file(self, token_file: str):
-        if not isinstance(token_file, str) and len(token_file) < 1:
+        if not isinstance(token_file, str) or len(token_file) < 1:
             raise ValueError(f"token_file must be a string with at least 1 character (input: '{token_file}')")
         self._token_file = token_file
 
@@ -185,7 +188,7 @@ class VMNotificationConfig(object):
         return self._token_file_create
 
     @token_file_create.setter
-    def token_file_create(self, token_file_create: str):
+    def token_file_create(self, token_file_create: bool):
         if not isinstance(token_file_create, bool):
             raise ValueError(f"token_file_create must be a boolean (input: '{token_file_create}')")
         self._token_file_create = token_file_create
@@ -195,7 +198,7 @@ class VMNotificationConfig(object):
         return self._token_obfuscate_logfile
 
     @token_obfuscate_logfile.setter
-    def token_obfuscate_logfile(self, token_obfuscate_logfile: str):
+    def token_obfuscate_logfile(self, token_obfuscate_logfile: bool):
         if not isinstance(token_obfuscate_logfile, bool):
             raise ValueError(f"token_obfuscate_logfile must be a boolean (input: '{token_obfuscate_logfile}')")
         self._token_obfuscate_logfile = token_obfuscate_logfile
@@ -206,7 +209,7 @@ class VMNotificationConfig(object):
 
     @service_logfile.setter
     def service_logfile(self, service_logfile: str):
-        if not isinstance(service_logfile, str) and len(service_logfile) < 1:
+        if not isinstance(service_logfile, str) or len(service_logfile) < 1:
             raise ValueError(f"service_logfile must be a string with at least 1 character (input: '{service_logfile}')")
         self._service_logfile = service_logfile
 
@@ -236,9 +239,10 @@ class VMNotificationConfig(object):
 
     @service_logfile_maxsize_bytes.setter
     def service_logfile_maxsize_bytes(self, service_logfile_maxsize_bytes: int):
-        if service_logfile_maxsize_bytes < 1:
-            raise ValueError(
-                f"service_logfile_maxsize_bytes must be greater than 1024 (was {service_logfile_maxsize_bytes}).")
+        if not isinstance(service_logfile_maxsize_bytes, int):
+            raise ValueError(f"service_logfile_maxsize_bytes must be an integer (input: '{service_logfile_maxsize_bytes}')")
+        if service_logfile_maxsize_bytes < 1024:
+            raise ValueError(f"service_logfile_maxsize_bytes must be greater than or equal to 1024 (was {service_logfile_maxsize_bytes}).")
         self._service_logfile_maxsize_bytes = service_logfile_maxsize_bytes
 
     @property
@@ -247,6 +251,8 @@ class VMNotificationConfig(object):
 
     @service_logfile_count.setter
     def service_logfile_count(self, service_logfile_count: int):
+        if not isinstance(service_logfile_count, int):
+            raise ValueError(f"service_logfile_count must be an integer (input: '{service_logfile_count}')")
         if service_logfile_count < 2:
             raise ValueError(f"service_logfile_count must be greater than 1 (was {service_logfile_count}).")
         self._service_logfile_count = service_logfile_count
@@ -257,8 +263,8 @@ class VMNotificationConfig(object):
 
     @vmotion_logfile.setter
     def vmotion_logfile(self, vmotion_logfile: str):
-        if not isinstance(vmotion_logfile, str) and len(vmotion_logfile) < 1:
-            raise ValueError(f"service_logfile must be a string with at least 1 character (input: '{vmotion_logfile}')")
+        if not isinstance(vmotion_logfile, str) or len(vmotion_logfile) < 1:
+            raise ValueError(f"vmotion_logfile must be a string with at least 1 character (input: '{vmotion_logfile}')")
         self._vmotion_logfile = vmotion_logfile
 
     @property
@@ -267,9 +273,11 @@ class VMNotificationConfig(object):
 
     @vmotion_logfile_maxsize_bytes.setter
     def vmotion_logfile_maxsize_bytes(self, vmotion_logfile_maxsize_bytes: int):
-        if vmotion_logfile_maxsize_bytes < 1:
+        if not isinstance(vmotion_logfile_maxsize_bytes, int):
+            raise ValueError(f"vmotion_logfile_maxsize_bytes must be an integer (input: '{vmotion_logfile_maxsize_bytes}')")
+        if vmotion_logfile_maxsize_bytes < 1024:
             raise ValueError(
-                f"vmotion_logfile_maxsize_bytes must be greater than 1024 (was {vmotion_logfile_maxsize_bytes}).")
+                f"vmotion_logfile_maxsize_bytes must be greater than or equal to 1024 (was {vmotion_logfile_maxsize_bytes}).")
         self._vmotion_logfile_maxsize_bytes = vmotion_logfile_maxsize_bytes
 
     @property
@@ -278,6 +286,43 @@ class VMNotificationConfig(object):
 
     @vmotion_logfile_count.setter
     def vmotion_logfile_count(self, vmotion_logfile_count: int):
+        if not isinstance(vmotion_logfile_count, int):
+            raise ValueError(f"vmotion_logfile_count must be an integer (input: '{vmotion_logfile_count}')")
         if vmotion_logfile_count < 2:
             raise ValueError(f"vmotion_logfile_count must be greater than 1 (was {vmotion_logfile_count}).")
         self._vmotion_logfile_count = vmotion_logfile_count
+
+    @property
+    def timeout_logfile(self) -> str:
+        return self._timeout_logfile
+
+    @timeout_logfile.setter
+    def timeout_logfile(self, timeout_logfile: str):
+        if not isinstance(timeout_logfile, str) or len(timeout_logfile) < 1:
+            raise ValueError(f"timeout_logfile must be a string with at least 1 character (input: '{timeout_logfile}')")
+        self._timeout_logfile = timeout_logfile
+
+    @property
+    def timeout_logfile_maxsize_bytes(self) -> int:
+        return self._timeout_logfile_maxsize_bytes
+
+    @timeout_logfile_maxsize_bytes.setter
+    def timeout_logfile_maxsize_bytes(self, timeout_logfile_maxsize_bytes: int):
+        if not isinstance(timeout_logfile_maxsize_bytes, int):
+            raise ValueError(f"timeout_logfile_maxsize_bytes must be an integer (input: '{timeout_logfile_maxsize_bytes}')")
+        if timeout_logfile_maxsize_bytes < 1024:
+            raise ValueError(
+                f"timeout_logfile_maxsize_bytes must be greater than or equal to 1024 (was {timeout_logfile_maxsize_bytes}).")
+        self._timeout_logfile_maxsize_bytes = timeout_logfile_maxsize_bytes
+
+    @property
+    def timeout_logfile_count(self) -> int:
+        return self._timeout_logfile_count
+
+    @timeout_logfile_count.setter
+    def timeout_logfile_count(self, timeout_logfile_count: int):
+        if not isinstance(timeout_logfile_count, int):
+            raise ValueError(f"timeout_logfile_count must be an integer (input: '{timeout_logfile_count}')")
+        if timeout_logfile_count < 2:
+            raise ValueError(f"timeout_logfile_count must be greater than 1 (was {timeout_logfile_count}).")
+        self._timeout_logfile_count = timeout_logfile_count

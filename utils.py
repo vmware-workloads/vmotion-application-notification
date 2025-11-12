@@ -1,6 +1,5 @@
 import logging
 
-from logging import handlers
 from pathlib import Path
 from typing import Union
 
